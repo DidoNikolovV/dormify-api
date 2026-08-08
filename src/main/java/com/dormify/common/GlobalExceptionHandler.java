@@ -28,4 +28,9 @@ public class GlobalExceptionHandler {
         });
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<ErrorDto> handleAlreadyExistsMessage(RuntimeException e) {
+        return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage()));
+    }
 }
