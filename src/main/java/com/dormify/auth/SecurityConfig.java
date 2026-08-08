@@ -1,5 +1,6 @@
 package com.dormify.auth;
 
+import com.dormify.common.SecurityRules;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -26,6 +29,7 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final List<SecurityRules> featureSecurityRules;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -51,6 +55,7 @@ public class SecurityConfig {
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(c -> {
+                            featureSecurityRules.forEach(r -> r.configure(c));
                             c.anyRequest().authenticated();
                         }
                 )
