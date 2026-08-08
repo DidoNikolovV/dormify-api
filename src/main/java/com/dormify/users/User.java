@@ -1,4 +1,4 @@
-package com.dormify.user;
+package com.dormify.users;
 
 import com.dormify.common.BaseEntity;
 import jakarta.persistence.*;

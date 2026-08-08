@@ -1,4 +1,4 @@
-package com.dormify.user;
+package com.dormify.users;
 
 public enum Gender {
     NOT_KNOWN,

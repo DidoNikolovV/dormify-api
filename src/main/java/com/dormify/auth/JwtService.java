@@ -1,6 +1,6 @@
 package com.dormify.auth;
 
-import com.dormify.user.User;
+import com.dormify.users.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

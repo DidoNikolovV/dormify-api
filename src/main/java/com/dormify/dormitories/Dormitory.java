@@ -1,7 +1,7 @@
-package com.dormify.dormitory;
+package com.dormify.dormitories;
 
 import com.dormify.common.BaseEntity;
-import com.dormify.user.User;
+import com.dormify.users.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

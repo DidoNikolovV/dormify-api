@@ -1,6 +1,6 @@
 package com.dormify.auth;
 
-import com.dormify.user.Role;
+import com.dormify.users.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;

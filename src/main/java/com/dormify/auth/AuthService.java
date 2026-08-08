@@ -1,7 +1,7 @@
 package com.dormify.auth;
 
-import com.dormify.user.User;
-import com.dormify.user.UserRepository;
+import com.dormify.users.User;
+import com.dormify.users.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
