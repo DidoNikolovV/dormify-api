@@ -42,4 +42,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
+
+    public String getName() {
+        return String.format("%s %s", this.firstName, this.lastName);
+    }
 }
