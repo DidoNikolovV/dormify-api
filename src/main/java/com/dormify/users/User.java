@@ -18,6 +18,9 @@ public class User extends BaseEntity {
     @Column(name = "id_type")
     private IdType idType;
 
+    @Column(unique = true)
+    private String facultyNumber;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -35,6 +38,7 @@ public class User extends BaseEntity {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
