@@ -1,4 +1,4 @@
-package com.dormify.dormify_api;
+package com.dormify;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,3 +1,10 @@
 spring:
-  application:
-    name: dormify-api
+  datasource:
+    url: jdbc:mysql://localhost:3306/dormify?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
