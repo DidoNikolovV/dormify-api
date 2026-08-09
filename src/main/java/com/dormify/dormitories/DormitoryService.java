@@ -25,4 +25,16 @@ public class DormitoryService {
                 .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
         return dormitoryMapper.toDto(dormitory);
     }
+
+    public DormitoryDto updateDormitory(Long id, UpdateDormitoryRequest request) {
+        var dormitory = dormitoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
+
+        if (request.getCapacity() != null) {
+            dormitory.setCapacity(request.getCapacity());
+        }
+
+        dormitoryRepository.save(dormitory);
+        return dormitoryMapper.toDto(dormitory);
+    }
 }
