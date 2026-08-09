@@ -3,6 +3,7 @@ package com.dormify.washingmachines;
 
 import com.dormify.common.BaseEntity;
 import com.dormify.rooms.Room;
+import com.dormify.timeslots.TimeSlot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,5 +28,5 @@ public class WashingMachine extends BaseEntity {
     private int limitPerPersonPerWeek;
 
     @OneToMany(mappedBy = "washingMachine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TimeSlotEntity> timeSlots = new ArrayList<>();
+    private List<TimeSlot> timeSlots = new ArrayList<>();
 }
