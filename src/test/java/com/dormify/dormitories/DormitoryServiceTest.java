@@ -12,8 +12,7 @@ import java.util.Optional;
 import static com.dormify.dormitories.DormitoryTestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DormitoryServiceTest {
@@ -65,11 +64,48 @@ class DormitoryServiceTest {
     }
 
     @Test
-    void updateDormitory() {
+    void updateDormitory_whenDormitoryNotFound_thenThrowException() {
+        var request = createUpdateRequest(700);
+        when(dormitoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> underTest.updateDormitory(1L, request));
+
+        verify(dormitoryRepository).findById(1L);
+        verifyNoInteractions(dormitoryMapper);
     }
 
     @Test
-    void deleteDormitory() {
+    void updateDormitory_whenCapacityIsUpdate_thenUpdateDormitory() {
+        var request = createUpdateRequest(700);
+        var dormitory = createDormitory(1L, "Dormitory 1", 650);
+        var dormitoryDto = createDormitoryDto(1L, "Dormitory 1", 700);
+
+        when(dormitoryRepository.findById(1L)).thenReturn(Optional.of(dormitory));
+        when(dormitoryMapper.toDto(dormitory)).thenReturn(dormitoryDto);
+
+        var result = underTest.updateDormitory(1L, request);
+
+        assertEquals(700, result.getCapacity());
+    }
+
+    @Test
+    void deleteDormitory_whenDormitoryFound_thenDeleteDormitory() {
+        var dormitory = createDormitory(1L, "Dormitory 1", 650);
+        when(dormitoryRepository.findById(1L)).thenReturn(Optional.of(dormitory));
+
+        underTest.deleteDormitory(1L);
+
+        verify(dormitoryRepository).delete(dormitory);
+    }
+
+    @Test
+    void deleteDormitory_whenDormitoryNotFound_thenThrowException() {
+        when(dormitoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> underTest.deleteDormitory(1L));
+
+        verify(dormitoryRepository).findById(1L);
+        verifyNoMoreInteractions(dormitoryRepository);
     }
 
     @Test

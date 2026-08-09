@@ -34,4 +34,10 @@ public class DormitoryTestUtils {
         dto.setId(id);
         return dto;
     }
+
+    public static UpdateDormitoryRequest createUpdateRequest(Integer capacity) {
+        var request = new UpdateDormitoryRequest();
+        request.setCapacity(capacity);
+        return request;
+    }
 }
