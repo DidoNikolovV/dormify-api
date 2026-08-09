@@ -1,6 +1,7 @@
 package com.dormify.rooms;
 
 import com.dormify.common.BaseEntity;
+import com.dormify.floors.Floor;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,4 +29,8 @@ public class Room extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private RoomType type = RESIDENTIAL;
+
+    @ManyToOne
+    @JoinColumn(name = "floor_id")
+    private Floor floor;
 }

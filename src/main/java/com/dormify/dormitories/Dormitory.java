@@ -1,10 +1,14 @@
 package com.dormify.dormitories;
 
 import com.dormify.common.BaseEntity;
+import com.dormify.floors.Floor;
 import com.dormify.users.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "dormitories")
@@ -21,4 +25,7 @@ public class Dormitory extends BaseEntity {
 
     @Column(name = "capacity")
     private int capacity;
+
+    @OneToMany(mappedBy = "dormitory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Floor> floors = new ArrayList<>();
 }
