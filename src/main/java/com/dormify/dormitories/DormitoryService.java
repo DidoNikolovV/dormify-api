@@ -3,6 +3,7 @@ package com.dormify.dormitories;
 import com.dormify.common.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.dormify.common.ErrorMessage.DORMITORY_NOT_FOUND;
 
@@ -21,14 +22,13 @@ public class DormitoryService {
     }
 
     public DormitoryDto getDormitoryById(Long id) {
-        var dormitory = dormitoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
+        var dormitory = getById(id);
         return dormitoryMapper.toDto(dormitory);
     }
 
+    @Transactional
     public DormitoryDto updateDormitory(Long id, UpdateDormitoryRequest request) {
-        var dormitory = dormitoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
+        var dormitory = getById(id);
 
         if (request.getCapacity() != null) {
             dormitory.setCapacity(request.getCapacity());
@@ -36,5 +36,17 @@ public class DormitoryService {
 
         dormitoryRepository.save(dormitory);
         return dormitoryMapper.toDto(dormitory);
+    }
+
+    @Transactional
+    public void deleteDormitory(Long id) {
+        var dormitory = getById(id);
+        dormitory.setManager(null);
+        dormitoryRepository.delete(dormitory);
+    }
+
+    private Dormitory getById(Long id) {
+        return dormitoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
     }
 }

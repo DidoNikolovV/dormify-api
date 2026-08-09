@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -47,5 +48,17 @@ public class DormitoryController {
     public ResponseEntity<DormitoryDto> updateDormitory(@PathVariable("id") Long id,
                                                         @RequestBody @Valid UpdateDormitoryRequest request) {
         return ResponseEntity.ok(dormitoryService.updateDormitory(id, request));
+    }
+
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(summary = "Delete dormitory by ID", description = "Deletes a dormitory based on the provided ID.")
+    @ApiResponse(responseCode = "204", description = "Dormitory deleted successfully")
+    @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content())
+    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content())
+    @ApiResponse(responseCode = "404", description = "Dormitory not found", content = @Content())
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDormitory(@PathVariable("id") Long id) {
+        dormitoryService.deleteDormitory(id);
+        return ResponseEntity.noContent().build();
     }
 }
