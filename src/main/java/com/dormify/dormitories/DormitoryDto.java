@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class DormitoryDto {
     @Schema(description = "Unique identifier of the dormitory", example = "1")
-    private int id;
+    private Long id;
 
     @Schema(description = "Name of the dormitory", example = "Green Hall")
     private String name;
