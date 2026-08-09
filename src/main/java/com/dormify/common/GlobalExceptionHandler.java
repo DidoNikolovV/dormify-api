@@ -1,11 +1,13 @@
 package com.dormify.common;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +16,8 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorDto> handleUnreadableMessage() {
-        return ResponseEntity.badRequest().body(new ErrorDto("Invalid request body"));
+    public ResponseEntity<ErrorDto> handleUnreadableMessage(HttpMessageNotReadableException ex) {
+        return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -30,7 +32,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<ErrorDto> handleAlreadyExistsMessage(RuntimeException e) {
-        return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage()));
+    public ResponseEntity<ErrorDto> handleAlreadyExistsMessage(RuntimeException ex) {
+        return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleResourceNotFoundMessage(ResourceNotFoundException ex) {
+        return createErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    private ResponseEntity<ErrorDto> createErrorResponse(HttpStatus status, String message) {
+        ErrorDto errorDto = new ErrorDto(
+                Instant.now(),
+                status.value(),
+                status.name(),
+                message
+        );
+        return ResponseEntity.status(status).body(errorDto);
     }
 }

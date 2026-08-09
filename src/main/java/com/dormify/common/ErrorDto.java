@@ -1,10 +1,10 @@
 package com.dormify.common;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.time.Instant;
 
-@Data
-@AllArgsConstructor
-public class ErrorDto {
-    private String error;
-}
+public record ErrorDto(
+        Instant timestamp,
+        int status,
+        String error,
+        String message
+) {}

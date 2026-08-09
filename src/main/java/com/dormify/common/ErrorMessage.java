@@ -4,7 +4,8 @@ public enum ErrorMessage {
     USER_WITH_NATIONAL_ID_ALREADY_EXISTS("User with national id %s already exists"),
     USER_WITH_FACULTY_NUMBER_ALREADY_EXISTS("User with faculty number %s already exists"),
     USER_WITH_EMAIL_ALREADY_EXISTS("User with email %s already exists"),
-    USER_WITH_PHONE_NUMBER_ALREADY_EXISTS("User with phone number %s already exists");
+    USER_WITH_PHONE_NUMBER_ALREADY_EXISTS("User with phone number %s already exists"),
+    DORMITORY_NOT_FOUND("Dormitory with id %s not found");
 
     private final String messageTemplate;
 
@@ -13,7 +14,7 @@ public enum ErrorMessage {
     }
 
     public String getMessage(Object... args) {
-        String.format(messageTemplate, args);
+        return String.format(messageTemplate, args);
     }
 
 }
