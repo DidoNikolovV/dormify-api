@@ -1,5 +1,8 @@
 package com.dormify.dormitories;
 
+import com.dormify.common.PaginationRequest;
+import com.dormify.common.PaginationUtils;
+import com.dormify.common.PagingResult;
 import com.dormify.common.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,5 +51,11 @@ public class DormitoryService {
     private Dormitory getById(Long id) {
         return dormitoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
+    }
+
+    public PagingResult<DormitoryDto> getDormitories(PaginationRequest request) {
+        var pageable = PaginationUtils.getPageable(request);
+        var page = dormitoryRepository.findAll(pageable);
+        return PaginationUtils.createPagingResult(page, dormitoryMapper::toDto);
     }
 }

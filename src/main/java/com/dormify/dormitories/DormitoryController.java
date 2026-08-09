@@ -1,5 +1,7 @@
 package com.dormify.dormitories;
 
+import com.dormify.common.PaginationRequest;
+import com.dormify.common.PagingResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -60,5 +63,20 @@ public class DormitoryController {
     public ResponseEntity<Void> deleteDormitory(@PathVariable("id") Long id) {
         dormitoryService.deleteDormitory(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "View all dormitories", description = "Retrieves a paginated list of all dormitories.")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved dormitories",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PagingResult.class)))
+    @GetMapping
+    public ResponseEntity<PagingResult<DormitoryDto>> getDormitories(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction
+    ) {
+        final PaginationRequest request = new PaginationRequest(page, size, sortField, direction);
+        return ResponseEntity.ok(dormitoryService.getDormitories(request));
     }
 }
