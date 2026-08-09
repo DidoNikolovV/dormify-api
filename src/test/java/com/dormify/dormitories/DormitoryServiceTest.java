@@ -1,15 +1,22 @@
 package com.dormify.dormitories;
 
+import com.dormify.common.PaginationRequest;
+import com.dormify.common.PaginationUtils;
 import com.dormify.common.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Sort;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static com.dormify.dormitories.DormitoryTestUtils.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -109,6 +116,27 @@ class DormitoryServiceTest {
     }
 
     @Test
-    void getDormitories() {
+    void getDormitories_whenDormitoriesFound_thenReturnPagingResult() {
+        var request = new PaginationRequest(0, 5, "id", Sort.Direction.ASC);
+        var dormitory1 = createDormitory(1L, "Dormitory 1", 650);
+        var dormitory2 = createDormitory(2L, "Dormitory 2", 700);
+        var dormitoryDto1 = createDormitoryDto(1L, "Dormitory 1", 650);
+        var dormitoryDto2 = createDormitoryDto(2L, "Dormitory 2", 700);
+
+        var pageable = PaginationUtils.getPageable(request);
+        var page = new PageImpl<>(List.of(dormitory1, dormitory2), pageable, 2);
+
+        when(dormitoryRepository.findAll(pageable)).thenReturn(page);
+        when(dormitoryMapper.toDto(dormitory1)).thenReturn(dormitoryDto1);
+        when(dormitoryMapper.toDto(dormitory2)).thenReturn(dormitoryDto2);
+
+        var result = underTest.getDormitories(request);
+
+        assertThat(result.getContent())
+                .hasSize(2)
+                .extracting(DormitoryDto::getName)
+                .containsExactly("Dormitory 1", "Dormitory 2");
+
+        assertEquals(2, result.getTotalElements());
     }
 }
