@@ -1,4 +1,4 @@
-package com.dormify.auth;
+package com.dormify.dormitories;
 
 import com.dormify.common.SecurityRules;
 import org.springframework.http.HttpMethod;
@@ -7,12 +7,12 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthSecurityRules implements SecurityRules {
+public class DormitorySecurityRules implements SecurityRules {
     @Override
     public void configure(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         registry
-                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
+                .requestMatchers(HttpMethod.GET, "/dormitories").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/dormitories/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/dormitories/{id}").hasAnyRole("ADMIN", "DORMITORY_MANAGER");
     }
 }
