@@ -63,4 +63,18 @@ public class FloorController {
         final PaginationRequest request = new PaginationRequest(page, size, sortField, direction);
         return ResponseEntity.ok(floorService.getFloorsByDormitory(dormitoryId, request));
     }
+
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(summary = "Update floor details", description = "Updates the details of an existing floor.")
+    @ApiResponse(responseCode = "204", description = "Floor updated successfully")
+    @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content())
+    @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content())
+    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content())
+    @ApiResponse(responseCode = "404", description = "Floor not found", content = @Content())
+    @PutMapping("/{id}")
+    public ResponseEntity<FloorDto> editFloor(@PathVariable("id") Long floorId,
+                                              @RequestBody @Valid UpdateFloorRequest request) {
+        var floor = floorService.updateFloor(floorId, request);
+        return ResponseEntity.ok().body(floor);
+    }
 }

@@ -33,14 +33,25 @@ public class FloorService {
     }
 
     public FloorDto getFloor(Long id) {
-        var floor = floorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(FLOOR_NOT_FOUND.getMessage(id)));
+        var floor = getFloorById(id);
         return floorMapper.toDto(floor);
+    }
+
+    private Floor getFloorById(Long id) {
+        return floorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(FLOOR_NOT_FOUND.getMessage(id)));
     }
 
     public PagingResult<FloorDto> getFloorsByDormitory(Long dormitoryId, PaginationRequest request) {
         var pageable = PaginationUtils.getPageable(request);
         var page = floorRepository.findByDormitoryId(dormitoryId, pageable);
         return createPagingResult(page, floorMapper::toDto);
+    }
+
+    @Transactional
+    public FloorDto updateFloor(Long floorId, UpdateFloorRequest request) {
+        Floor floor = getFloorById(floorId);
+        floorRepository.save(floor);
+        return floorMapper.toDto(floor);
     }
 }
