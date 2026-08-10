@@ -1,7 +1,6 @@
 package com.dormify.floors;
 
-import com.dormify.common.ResourceAlreadyExistsException;
-import com.dormify.common.ResourceNotFoundException;
+import com.dormify.common.*;
 import com.dormify.dormitories.DormitoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.dormify.common.ErrorMessage.FLOOR_ALREADY_EXISTS_IN_DORMITORY;
 import static com.dormify.common.ErrorMessage.FLOOR_NOT_FOUND;
+import static com.dormify.common.PaginationUtils.createPagingResult;
 
 @AllArgsConstructor
 @Service
@@ -35,7 +35,12 @@ public class FloorService {
     public FloorDto getFloor(Long id) {
         var floor = floorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(FLOOR_NOT_FOUND.getMessage(id)));
-
         return floorMapper.toDto(floor);
+    }
+
+    public PagingResult<FloorDto> getFloorsByDormitory(Long dormitoryId, PaginationRequest request) {
+        var pageable = PaginationUtils.getPageable(request);
+        var page = floorRepository.findByDormitoryId(dormitoryId, pageable);
+        return createPagingResult(page, floorMapper::toDto);
     }
 }
