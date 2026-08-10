@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @AllArgsConstructor
@@ -37,5 +34,15 @@ public class FloorController {
         var floor = floorService.createFloor(dormitoryId, request);
         var uri = uriBuilder.path("/floors/{id}").buildAndExpand(floor.getId()).toUri();
         return ResponseEntity.created(uri).body(floor);
+    }
+
+    @Operation(summary = "Get floor details by ID", description = "Retrieves floor details.")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved floor",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = FloorDto.class)))
+    @ApiResponse(responseCode = "404", description = "Floor not found", content = @Content())
+    @GetMapping("/{id}")
+    public ResponseEntity<FloorDto> getFloor(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(floorService.getFloor(id));
     }
 }

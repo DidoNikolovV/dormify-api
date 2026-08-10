@@ -1,12 +1,14 @@
 package com.dormify.floors;
 
 import com.dormify.common.ResourceAlreadyExistsException;
+import com.dormify.common.ResourceNotFoundException;
 import com.dormify.dormitories.DormitoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.dormify.common.ErrorMessage.FLOOR_ALREADY_EXISTS_IN_DORMITORY;
+import static com.dormify.common.ErrorMessage.FLOOR_NOT_FOUND;
 
 @AllArgsConstructor
 @Service
@@ -27,6 +29,13 @@ public class FloorService {
         dormitory.addFloor(floor);
 
         floorRepository.save(floor);
+        return floorMapper.toDto(floor);
+    }
+
+    public FloorDto getFloor(Long id) {
+        var floor = floorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(FLOOR_NOT_FOUND.getMessage(id)));
+
         return floorMapper.toDto(floor);
     }
 }
