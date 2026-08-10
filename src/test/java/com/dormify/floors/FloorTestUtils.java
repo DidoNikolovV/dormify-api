@@ -2,6 +2,7 @@ package com.dormify.floors;
 
 
 import com.dormify.dormitories.Dormitory;
+import org.hibernate.sql.Update;
 
 public class FloorTestUtils {
 
@@ -34,6 +35,12 @@ public class FloorTestUtils {
         var floor = createFloor(number, dormitory);
         floor.setId(id);
         return floor;
+    }
+
+    public static UpdateFloorRequest createUpdateRequest(Long personId) {
+        var request = new UpdateFloorRequest();
+        request.setRepresentativePersonId(personId);
+        return request;
     }
 
 
