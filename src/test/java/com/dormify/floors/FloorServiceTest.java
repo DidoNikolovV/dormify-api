@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static com.dormify.dormitories.DormitoryTestUtils.createDormitory;
 import static com.dormify.floors.FloorTestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,7 +64,26 @@ class FloorServiceTest {
     }
 
     @Test
-    void getFloor() {
+    void getFloor_whenFloorFound_thenReturnFloor() {
+        var dormitory = createDormitory(1L, "Dormitory 1", 100);
+        var floor = createFloor(1L, 1, dormitory);
+        var floorDto = createFloorDto(1L, 1, 20, 1L, 1L);
+
+        when(floorRepository.findById(1L)).thenReturn(Optional.of(floor));
+        when(floorMapper.toDto(floor)).thenReturn(floorDto);
+
+        var actual = underTest.getFloor(1L);
+
+        assertEquals(1L, actual.getId());
+        assertEquals(1L, actual.getDormitoryId());
+    }
+
+    @Test
+    void getFloor_whenFloorNotFound_thenThrowException() {
+        when(floorRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> underTest.getFloor(1L));
     }
 
     @Test

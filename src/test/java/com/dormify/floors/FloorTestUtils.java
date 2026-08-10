@@ -31,7 +31,7 @@ public class FloorTestUtils {
     }
 
     public static Floor createFloor(Long id, int number, Dormitory dormitory) {
-        var floor = createFloor(id, number, dormitory);
+        var floor = createFloor(number, dormitory);
         floor.setId(id);
         return floor;
     }
