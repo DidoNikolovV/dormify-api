@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 public interface FloorMapper {
 
     Floor toEntity(FloorDto dto);
+    Floor toEntity(CreateFloorRequest request);
 
     FloorDto toDto(Floor entity);
 }

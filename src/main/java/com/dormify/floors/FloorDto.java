@@ -21,7 +21,7 @@ public class FloorDto {
     private int totalNumberOfRooms;
 
     @Schema(description = "User ID of the responsible person", example = "2")
-    private Long responsiblePersonId;
+    private Long representativePersonId;
 
     @Schema(description = "List of rooms on this floor")
     private List<RoomDto> rooms = new ArrayList<>();

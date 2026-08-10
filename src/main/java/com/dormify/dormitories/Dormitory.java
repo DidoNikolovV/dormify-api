@@ -28,4 +28,9 @@ public class Dormitory extends BaseEntity {
 
     @OneToMany(mappedBy = "dormitory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Floor> floors = new ArrayList<>();
+
+    public void addFloor(Floor floor) {
+        this.floors.add(floor);
+        floor.setDormitory(this);
+    }
 }

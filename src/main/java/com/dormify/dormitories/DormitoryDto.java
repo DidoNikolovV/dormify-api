@@ -1,5 +1,6 @@
 package com.dormify.dormitories;
 
+import com.dormify.floors.Floor;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

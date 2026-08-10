@@ -48,7 +48,7 @@ public class DormitoryService {
         dormitoryRepository.delete(dormitory);
     }
 
-    private Dormitory getById(Long id) {
+    public Dormitory getById(Long id) {
         return dormitoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(DORMITORY_NOT_FOUND.getMessage(id)));
     }
