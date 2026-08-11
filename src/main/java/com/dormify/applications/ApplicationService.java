@@ -18,7 +18,7 @@ public class ApplicationService {
     private final List<ApplicationHandler> handlers;
 
     public ApplicationDto submitApplication(Long windowId, CreateApplicationRequest request, DocumentsWrapper documents, String email) {
-        if (applicationRepository.existsByApplicationWindowIdAndUserEmailAndStatusNotIn((windowId, email, Set.of(REJECTED, DECLINED))) {
+        if (applicationRepository.existsByApplicationWindowIdAndUserEmailAndStatusNotIn(windowId, email, Set.of(REJECTED, DECLINED))) {
             throw new ResourceAlreadyExistsException(APPLICATION_ALREADY_SUBMITTED.getMessage(email, windowId));
         }
 

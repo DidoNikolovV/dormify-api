@@ -7,5 +7,6 @@ import java.util.Set;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
-    <E> boolean existsByApplicationWindowIdAndUserEmailAndStatusNotIn(Long attr0, void attr1, Set<E> attr2);
+    boolean existsByApplicationWindowIdAndUserEmailAndStatusNotIn(Long windowId, String email, Set<ApplicationStatus> statuses);
+
 }
