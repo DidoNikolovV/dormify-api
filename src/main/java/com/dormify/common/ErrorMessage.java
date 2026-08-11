@@ -7,7 +7,8 @@ public enum ErrorMessage {
     USER_WITH_PHONE_NUMBER_ALREADY_EXISTS("User with phone number %s already exists"),
     DORMITORY_NOT_FOUND("Dormitory with id %s not found"),
     FLOOR_ALREADY_EXISTS_IN_DORMITORY("Floor with number %s already exists in dormitory %s"),
-    FLOOR_NOT_FOUND("Floor with id %s not found");
+    FLOOR_NOT_FOUND("Floor with id %s not found"),
+    APPLICATION_ALREADY_SUBMITTED("Application for email %s already submitted for window with id %s");
 
     private final String messageTemplate;
 

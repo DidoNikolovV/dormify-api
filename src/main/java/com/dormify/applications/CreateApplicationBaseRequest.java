@@ -1,6 +1,7 @@
 package com.dormify.applications;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,6 +12,12 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type",
+        visible = true
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ApplicationFirstCourseDto.class, name = "APPLICATION_FIRST_COURSE_NOT_FAMILY"),
         @JsonSubTypes.Type(value = ApplicationUpperCourseDto.class, name = "APPLICATION_UPPER_COURSE_NOT_FAMILY"),
