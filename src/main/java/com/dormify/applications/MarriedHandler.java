@@ -23,6 +23,7 @@ public class MarriedHandler extends AbstractApplicationHandler {
 
         Application application = mapper.toEntityFromMarriedApplication(marriedApplicationDto);
 
-        return new HandlerResult(application);
+        return new com.dormify.applications.HandlerResult(application);
     }
+
 }

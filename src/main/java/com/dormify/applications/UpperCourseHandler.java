@@ -17,7 +17,7 @@ public class UpperCourseHandler extends AbstractApplicationHandler {
     }
 
     @Override
-    public HandlerResult handle(CreateApplicationRequest request, User request) {
+    public HandlerResult handle(CreateApplicationRequest request, User user) {
         var applicationUpperCourseDto = (ApplicationUpperCourseDto) request;
         Application application = mapper.toEntity(applicationUpperCourseDto);
         application.setCurrentRoom(applicationUpperCourseDto.getRoomNumber());

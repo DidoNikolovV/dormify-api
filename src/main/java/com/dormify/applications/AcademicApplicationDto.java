@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class AcademicApplicationDto extends CreateApplicationBaseRequest {
+public class AcademicApplicationDto extends CreateApplicationRequest {
     @NotBlank(message = "Faculty number is required")
     @Length(min = 1, max = 15, message = "Faculty number must be between 1 and 15 characters long")
     @Schema(description = "Student's faculty number", example = "1234567890")

@@ -21,6 +21,7 @@ public class ApplicationService {
         if (applicationRepository.existsByApplicationWindowIdAndUserEmailAndStatusNotIn((windowId, email, Set.of(REJECTED, DECLINED))) {
             throw new ResourceAlreadyExistsException(APPLICATION_ALREADY_SUBMITTED.getMessage(email, windowId));
         }
-        application = applicationRepository.save(application);
+
+        return null;
     }
 }
